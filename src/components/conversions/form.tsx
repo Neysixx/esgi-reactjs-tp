@@ -7,7 +7,6 @@ export default function ConversionForm({
     setResult,
     setError,
     error,
-    result,
     history
 }:{ 
     setHistory: (history: Conversion[]) => void,
@@ -17,16 +16,19 @@ export default function ConversionForm({
     result: Conversion | null,
     history: Conversion[]
 }) {
+    // States to handle the form inputs
     const [amount, setAmount] = useState<string>('');
     const [fromCurrency, setFromCurrency] = useState<string>('EUR');
     const [toCurrency, setToCurrency] = useState<string>('USD');
 
+    // Handle key down event
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             handleConversion();
         }
     };
 
+    // Handle amount change
     const handleAmountChange = (e) => {
         const value = e.target.value;
         // Only allow numbers and up to 2 decimal places
@@ -36,16 +38,19 @@ export default function ConversionForm({
         }
     };
 
+    // Handle clear amount
     const handleClearAmount = () => {
         setAmount('');
         if (error) setError('');
     };
 
+    // Handle swap currencies
     const handleSwapCurrencies = () => {
         setFromCurrency(toCurrency);
         setToCurrency(fromCurrency);
     };
 
+    // Handle conversion
     const handleConversion = () => {
         if (!amount) {
             setError('Veuillez entrer un montant');
@@ -78,6 +83,7 @@ export default function ConversionForm({
             timestamp: Date.now()
         };
 
+        // Update history and result
         setHistory([resultData, ...history]);
         setResult(resultData);
     };
